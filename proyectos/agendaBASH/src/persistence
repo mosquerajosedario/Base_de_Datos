@@ -1,0 +1,83 @@
+function saveData() {
+	rm -f surname.db
+	rm -f name.db
+	rm -f dni.db
+	rm -f postalAddress.db
+	rm -f phone.db
+	rm -f status.db
+	rm -f email.db
+	
+	for ((i = 0; i < currentIndex; i++)) {
+		if [ "${status[i]}" == "ACTIVE" ]
+		then
+			echo ${surname[i]} >> surname.db
+			echo ${name[i]} >> name.db
+			echo ${dni[i]} >> dni.db
+			echo ${postalAddress[i]} >> postalAddress.db
+			echo ${phone[i]} >> phone.db
+			echo ${status[i]} >> status.db
+			echo ${email[i]} >> email.db
+		fi
+	}
+
+	echo
+	echo "${#status[@]} registros procesados..."
+	echo 
+}
+
+function loadData() {
+	declare dataLine
+	declare -i currentIndex
+
+	if [[ -f surname.db && -f name.db && -f dni.db && -f postalAddress.db && -f phone.db && -f status.db && -f email.db ]]
+	then
+		currentIndex=0
+		while read dataLine
+		do
+			surname[currentIndex]=$dataLine
+			currentIndex=$((currentIndex + 1))
+		done < surname.db
+		
+		currentIndex=0
+		while read dataLine
+		do
+			name[currentIndex]=$dataLine
+			currentIndex=$((currentIndex + 1))
+		done < name.db
+		
+		currentIndex=0
+		while read dataLine
+		do
+			dni[currentIndex]=$dataLine
+			currentIndex=$((currentIndex + 1))
+		done < dni.db
+		
+		currentIndex=0
+		while read dataLine
+		do
+			postalAddress[currentIndex]=$dataLine
+			currentIndex=$((currentIndex + 1))
+		done < postalAddress.db
+		
+		currentIndex=0
+		while read dataLine
+		do
+			phone[currentIndex]=$dataLine
+			currentIndex=$((currentIndex + 1))
+		done < phone.db
+		
+		currentIndex=0
+		while read dataLine
+		do
+			email[currentIndex]=$dataLine
+			currentIndex=$((currentIndex + 1))
+		done < email.db
+		
+		currentIndex=0
+		while read dataLine
+		do
+			status[currentIndex]=$dataLine
+			currentIndex=$((currentIndex + 1))
+		done < status.db
+	fi
+}

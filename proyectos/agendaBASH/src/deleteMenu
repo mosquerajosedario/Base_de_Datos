@@ -1,0 +1,73 @@
+function deleteMenu() {
+	clear
+
+	echo "Eliminación de registros"
+	echo "=========== == ========="
+	echo
+	echo " a) Buscar por apellido"
+	echo " n) Buscar por nombre"
+	echo " d) Buscar por DNI"
+	echo " v) Volver al menú anterior"
+	echo
+}
+
+function delete() {
+	declare deleteOption 
+
+	while :
+	do
+		deleteMenu
+
+		read -p "Elija una opción: " deleteOption
+
+		case $deleteOption in
+			a | A | n | N | d | D) 
+				deleteRegister $deleteOption
+				;;
+
+			v | V)
+				;;
+			*)
+				echo 
+				echo "ERROR! OPCION INCORRECTA"
+				sleep 1
+				;;
+		esac
+
+		[[ $deleteOption != "v" && $deleteOption != "V" ]] || break
+	done
+}
+
+function deleteRegister() {
+	declare searchOption=$1
+
+	case $searchOption in
+		a | A)
+			searchBySurname
+			;;
+		n | N)
+			searchByName
+			;;
+		d | D)
+			searchByDNI
+			;;
+	esac
+
+	while :
+	do
+		declare confirm 
+
+		read -p "Borrar este registro? (s/n): " confirm
+		
+		[[ "$confirm" != "s" && "$confirm" != "S" && "$confirm" != "n" && "$confirm" != "N" ]] || break
+	done
+
+	if [[ "$confirm" == "s" || "$confirm" == "S" ]]
+	then
+		status[$position]="INACTIVE"
+	fi
+
+	echo 
+	echo "Registro borrado..."
+	sleep 1
+}

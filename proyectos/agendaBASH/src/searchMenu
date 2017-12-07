@@ -1,0 +1,139 @@
+function searchMenu() {
+	clear
+
+	echo "Búsqueda de Registros"
+	echo "======== == ========="
+	echo
+	echo " a) Búsqueda por apellido"
+	echo " n) Búsqueda por nombre"
+	echo " d) Búsqueda por DNI"
+	echo " t) Mostrar todos los registros"
+	echo " v) Volver al menú anterior"
+	echo
+}
+
+function search() {
+	declare searchOption
+
+	while :
+	do
+		searchMenu
+
+		read -p "Seleccione una opción: " searchOption
+
+		case $searchOption in
+			a | A)
+				searchBySurname
+				read -p "Presione ENTER para continuar..."
+				;;
+			n | N)
+				searchByName
+				read -p "Presione ENTER para continuar..."
+				;;
+			d | D)
+				searchByDNI
+				read -p "Presione ENTER para continuar..."
+				;;
+			t | T)
+				showAll
+				read -p "Presione ENTER para continuar..."
+				;;
+			v | V)
+				;;
+			*)
+				echo 
+				echo "ERROR! OPCION INCORRECTA"
+				sleep 1
+				;;
+		esac
+		
+		[[ "$searchOption" != "v" && "$searchOption" != "V" ]] || break
+	done
+}
+
+function searchBySurname() {
+	declare searchIndex
+	declare surnameSearcher
+
+	echo
+	read -p "Apellido: " surnameSearcher
+
+	resultHeader surname "$surnameSearcher"
+}
+
+
+function searchByDNI() {
+	declare searchIndex
+	declare dniSearcher
+	
+	echo
+	read -p "DNI: " dniSearcher
+
+	resultHeader dni "$dniSearcher"
+}
+
+
+function searchByName() {
+	declare searchIndex
+	declare nameSearcher
+
+	echo
+	read -p "Ingrese Nombre: " nameSearcher
+
+	resultHeader name "$nameSearcher" 
+}
+
+
+function showAll() {
+	declare searchIndex
+
+	clear
+	echo "Resultados de la búsqueda"
+	echo "========== == == ========"
+
+	for((searchIndex = 0; searchIndex < currentIndex; searchIndex++)) {
+		showResult $searchIndex
+	}
+}
+
+
+function showResult() {
+	declare searchIndex=$1
+	
+	if [ "${status[searchIndex]}" == "ACTIVE" ]
+	then
+		echo
+		echo "Apellido: ${surname[searchIndex]}"
+		echo "Nombre: ${name[searchIndex]}"
+		echo "DNI:  ${dni[searchIndex]}"
+		echo "Direccion: ${postalAddress[searchIndex]}"
+		echo "Teléfono: ${phone[searchIndex]}"
+		echo "email: ${email[searchIndex]}"
+		echo
+
+		unset position
+		declare -g -i position=searchIndex
+	fi
+
+}
+
+function resultHeader() {
+	declare arrayElements=$1[@]
+	declare -a vector=("${!arrayElements}")
+
+	declare keyword="$2"
+
+	clear
+
+	echo "Resultado de la busqueda"
+	echo "========================"
+
+	declare -i searchIndex
+
+	for((searchIndex = 0; searchIndex < currentIndex; searchIndex++)) {
+		if [ "${vector[searchIndex]}" == "$keyword" ]
+		then
+			showResult $searchIndex
+		fi
+	}
+}

@@ -1,0 +1,72 @@
+function createMenu() {
+	clear
+
+	echo "Alta de registros"
+	echo "==== == ========="
+	echo
+	echo " a) Alta de nuevo registro"
+	echo " v) Volver al menú anterior"
+	echo
+}
+
+function create() {
+	declare createOption 
+
+	while :
+	do
+		createMenu
+
+		read -p "Elija una opción: " createOption
+
+		case $createOption in
+			a | A) 
+				newRegister
+				;;
+
+			v | V)
+				;;
+			*)
+				echo 
+				echo "ERROR! OPCION INCORRECTA"
+				sleep 1
+				;;
+		esac
+
+		[[ "$createOption" != "v" && "$createOption" != "V" ]] || break
+	done
+}
+
+function newRegister() {
+	echo
+
+	read -p "Apellido: " surname[$currentIndex]
+	read -p "Nombre: " name[$currentIndex]
+
+	while :
+	do
+		read -p "DNI: " dni[$currentIndex]
+
+		declare -i searchIndex=0
+		for ((searchIndex=0; searchIndex < currentIndex - 1; searchIndex++)) {
+			if ((dni[searchIndex] == dni[currentIndex]))
+			then
+				echo "ERROR! Ya existe ese DNI"
+				dni[$currentIndex]=0
+			fi
+		}
+
+		((dni[currentIndex] <= 0)) || break
+	done
+
+	read -p "Dirección Postal: " postalAddress[$currentIndex]
+	read -p "Teléfono: " phone[$currentIndex]
+	read -p "email: " email[$currentIndex]
+	status[$currentIndex]="ACTIVE"
+
+	currentIndex=$((currentIndex + 1))
+
+	echo
+	echo "Alta exitosa..."
+	sleep 1
+}
+

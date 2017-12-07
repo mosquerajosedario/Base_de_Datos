@@ -1,0 +1,4 @@
+
+CREATE TYPE account_type AS ENUM('CAJA DE AHORROS', 'CUENTA CORRIENTE');
+CREATE SCHEMA customer;
+CREATE SCHEMA accounting;

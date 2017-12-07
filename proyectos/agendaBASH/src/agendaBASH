@@ -1,0 +1,59 @@
+#!/bin/bash
+
+. mainMenu
+. createMenu
+. searchMenu
+. persistence
+. deleteMenu
+
+declare -g -a surname
+declare -g -a name
+declare -g -a -i dni
+declare -g -a postalAddress
+declare -g -a phone
+declare -g -a email
+declare -g -a status
+
+loadData
+
+declare -g -i currentIndex=${#status[@]}
+
+clear
+echo "$currentIndex registros cargados..."
+sleep 1
+
+declare mainOption
+
+while :
+do
+	mainMenu
+
+	read -p "Seleccione una opción: " mainOption
+
+	case $mainOption in
+		a | A)
+			create
+			;;
+		b | B)
+			search
+			;;
+		s | S)
+			echo
+			echo "Gracias!"
+			echo
+			;;
+		e | E)
+			delete
+			;;
+		*)
+			echo
+			echo "ERROR! OPCION INCORRECTA"
+			sleep 1
+	esac
+
+	[[ "$mainOption" != "s" && "$mainOption" != "S" ]] || break
+done
+
+saveData 
+
+exit 0

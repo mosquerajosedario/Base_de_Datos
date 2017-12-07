@@ -1,0 +1,13 @@
+function mainMenu() {
+	clear
+
+	echo "Menu Principal"
+	echo "==== ========="
+	echo 
+	echo " a) Alta de registros"
+	echo " e) Eliminación de registros"
+	echo " m) Modificación de registros"
+	echo " b) Búsqueda de registros"
+	echo " s) Salir"
+	echo
+}

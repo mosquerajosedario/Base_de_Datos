@@ -1,0 +1,14 @@
+agendaBASH
+==========
+
+Desarrollar una aplicación que almacene datos personales, a saber:
+
+	- Apellido
+	- Nombre
+	- DNI
+	- Dirección postal
+	- Teléfono
+	- email
+
+El software debe ser capaz de ejecutar altas, bajas y modificaciones de datos.
+A su vez, debe poder buscar registros por apellido, por nombre o por DNI.
